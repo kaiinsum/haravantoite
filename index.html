@@ -12,16 +12,27 @@
             padding: 20px;
             text-align: center;
         }
-        .marquee {
+        .marquee-container {
             position: absolute;
             width: 150px;
-            background: red;
-            color: white;
-            padding: 10px;
-            font-weight: bold;
+            overflow: hidden;
         }
-        .marquee.left { left: 0; top: 50px; }
-        .marquee.right { right: 0; top: 50px; background: green; }
+        .marquee {
+            display: flex;
+            flex-direction: column;
+            animation: scrollUp 5s linear infinite;
+        }
+        .marquee img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .left { left: 0; top: 50px; }
+        .right { right: 0; top: 50px; }
+        @keyframes scrollUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
         .menu {
             display: flex;
             overflow-x: auto;
@@ -41,11 +52,23 @@
             margin: 10px 0;
             border-radius: 10px;
         }
+        .carousel {
+            position: relative;
+            max-width: 800px;
+            margin: auto;
+            overflow: hidden;
+        }
         .product-grid {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 300%;
+        }
+        .product-group {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 10px;
+            flex: 1;
+            min-width: 100%;
         }
         .product {
             background: white;
@@ -69,11 +92,35 @@
             margin-top: 5px;
             border-radius: 5px;
         }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .prev { left: 0; }
+        .next { right: 0; }
     </style>
 </head>
 <body>
-    <div class="marquee left">Giảm giá 50% hôm nay!</div>
-    <div class="marquee right">Freeship đơn trên 300k!</div>
+    <div class="marquee-container left">
+        <div class="marquee">
+            <img src="marquee1.jpg" alt="Khuyến mãi">
+            <img src="marquee2.jpg" alt="Giảm giá">
+            <img src="marquee3.jpg" alt="Freeship">
+        </div>
+    </div>
+    <div class="marquee-container right">
+        <div class="marquee">
+            <img src="marquee4.jpg" alt="Sản phẩm mới">
+            <img src="marquee5.jpg" alt="Flash Sale">
+            <img src="marquee6.jpg" alt="Ưu đãi đặc biệt">
+        </div>
+    </div>
     
     <div class="menu">
         <button>Danh mục 1</button>
@@ -82,47 +129,30 @@
         <button>Danh mục 4</button>
     </div>
     
-    <div id="products-container"></div>
-    
-    <script>
-        const products = [
-            { name: "Sản phẩm 1", image: "product1.jpg", price: "100.000đ", link: "#" },
-            { name: "Sản phẩm 2", image: "product2.jpg", price: "200.000đ", link: "#" },
-            { name: "Sản phẩm 3", image: "product3.jpg", price: "150.000đ", link: "#" },
-            { name: "Sản phẩm 4", image: "product4.jpg", price: "180.000đ", link: "#" },
-            { name: "Sản phẩm 5", image: "product5.jpg", price: "250.000đ", link: "#" },
-            { name: "Sản phẩm 6", image: "product6.jpg", price: "300.000đ", link: "#" },
-            { name: "Sản phẩm 7", image: "product7.jpg", price: "120.000đ", link: "#" },
-            { name: "Sản phẩm 8", image: "product8.jpg", price: "140.000đ", link: "#" },
-            { name: "Sản phẩm 9", image: "product9.jpg", price: "160.000đ", link: "#" },
-            { name: "Sản phẩm 10", image: "product10.jpg", price: "220.000đ", link: "#" },
-            { name: "Sản phẩm 11", image: "product11.jpg", price: "280.000đ", link: "#" },
-            { name: "Sản phẩm 12", image: "product12.jpg", price: "320.000đ", link: "#" },
-            { name: "Sản phẩm 13", image: "product13.jpg", price: "270.000đ", link: "#" },
-            { name: "Sản phẩm 14", image: "product14.jpg", price: "350.000đ", link: "#" },
-            { name: "Sản phẩm 15", image: "product15.jpg", price: "400.000đ", link: "#" },
-        ];
+    <div class="carousel">
+        <button class="carousel-btn prev" onclick="prevSlide()">&#10094;</button>
+        <div class="product-grid" id="productGrid">
+            <div class="product-group">
+                <div class="product"><img src="product1.jpg"><h3>Sản phẩm 1</h3><p>100.000đ</p><a href="#" class="buy-btn">Mua ngay</a></div>
+                <div class="product"><img src="product2.jpg"><h3>Sản phẩm 2</h3><p>200.000đ</p><a href="#" class="buy-btn">Mua ngay</a></div>
+                <div class="product"><img src="product3.jpg"><h3>Sản phẩm 3</h3><p>150.000đ</p><a href="#" class="buy-btn">Mua ngay</a></div>
+                <div class="product"><img src="product4.jpg"><h3>Sản phẩm 4</h3><p>180.000đ</p><a href="#" class="buy-btn">Mua ngay</a></div>
+                <div class="product"><img src="product5.jpg"><h3>Sản phẩm 5</h3><p>250.000đ</p><a href="#" class="buy-btn">Mua ngay</a></div>
+            </div>
+        </div>
+        <button class="carousel-btn next" onclick="nextSlide()">&#10095;</button>
+    </div>
 
-        const container = document.getElementById("products-container");
-        products.forEach((product, index) => {
-            if (index % 5 === 0) {
-                container.innerHTML += `<div class='banner'><img src='banner${index / 5 + 1}.jpg' alt='Banner ${index / 5 + 1}'></div>`;
-            }
-            if (index % 5 === 0) {
-                container.innerHTML += `<div class='product-grid'>`;
-            }
-            container.innerHTML += `
-                <div class='product'>
-                    <img src='${product.image}' alt='${product.name}'>
-                    <h3>${product.name}</h3>
-                    <p>${product.price}</p>
-                    <a href='${product.link}' class='buy-btn'>Mua ngay</a>
-                </div>
-            `;
-            if (index % 5 === 4 || index === products.length - 1) {
-                container.innerHTML += `</div>`;
-            }
-        });
+    <script>
+        let index = 0;
+        function nextSlide() {
+            index = (index + 1) % 3;
+            document.getElementById('productGrid').style.transform = `translateX(-${index * 100}%)`;
+        }
+        function prevSlide() {
+            index = (index - 1 + 3) % 3;
+            document.getElementById('productGrid').style.transform = `translateX(-${index * 100}%)`;
+        }
     </script>
 </body>
 </html>
